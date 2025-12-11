@@ -3,8 +3,12 @@ import type { Movie } from '../types/movie';
 
 const BASE_URL = 'https://api.themoviedb.org/3/search/movie';
 
+interface MovieSearchResponse {
+  results: Movie[];
+}
+
 export const fetchMovies = async (query: string): Promise<Movie[]> => {
-  const response = await axios.get(BASE_URL, {
+  const response = await axios.get<MovieSearchResponse>(BASE_URL, {
     params: {
       query,
       include_adult: false,
@@ -17,5 +21,5 @@ export const fetchMovies = async (query: string): Promise<Movie[]> => {
     },
   });
 
-  return response.data.results as Movie[];
+  return response.data.results;
 };
